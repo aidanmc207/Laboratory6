@@ -1,8 +1,11 @@
-module com.example.laboratory6 {
+module ucr.laboratory6 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.xml;
 
 
-    opens com.example.laboratory6 to javafx.fxml;
-    exports com.example.laboratory6;
+    opens ucr.laboratory6 to javafx.fxml;
+    exports ucr.laboratory6;
+    exports controller;
+    opens controller to javafx.fxml;
 }
