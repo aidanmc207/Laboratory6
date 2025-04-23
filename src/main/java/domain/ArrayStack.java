@@ -13,15 +13,16 @@ public class ArrayStack implements Stack {
         top = -1;//la pila inicia vacia
     }
     @Override
-    public void push(Object o) {
-        if (top <= n-1)
+    public void push(Object o)throws StackException {
+        if (top == n)
+            throw new StackException("La lista está llena");
             dataStack[++top] = o;
     }
 
     @Override
-    public Object pop() {
+    public Object pop()throws StackException {
         if (isEmpty())
-            System.exit(1);
+            throw new StackException("La lista está vacia");
         Object o = dataStack[top];
         dataStack[top] = null;
         top--;
@@ -33,18 +34,22 @@ public class ArrayStack implements Stack {
         if(isEmpty()) return "Array Strack is Empty";
         String result = "Array Stack Content: \n";
         ArrayStack aux = new ArrayStack(size());
-        while (!isEmpty()){
-            result += peek()+" ";
-            aux.push(pop());
-        }
-        while (!aux.isEmpty()){
-            push(aux.pop());
-        }
+        try {
+            while (!isEmpty()) {
+                result += peek() + " ";
+                aux.push(pop());
+            }
+            while (!aux.isEmpty()) {
+                push(aux.pop());
+            }
+        }catch (StackException e){}
         return result;
     }
 
     @Override
-    public Object peek() {
+    public Object peek()throws StackException {
+        if (isEmpty())
+            throw new StackException("La lista está vacia");
         return dataStack[top];
     }
 
@@ -54,7 +59,7 @@ public class ArrayStack implements Stack {
     }
 
     @Override
-    public Object top() {
+    public Object top()throws StackException {
         return peek();
     }
 
