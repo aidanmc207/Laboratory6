@@ -11,19 +11,16 @@ public class LinkedStack implements Stack {
 
     @Override
     public void push(Object o) {
-        Node newNode= new Node(o);
-        if (this.top == null) {
-            this.top = newNode;
-            counter++;
-        }
-        else {
-            this.top.next = newNode;
-            counter++;
-        }
+        Node newNode = new Node(o);
+        newNode.next = this.top;
+        this.top = newNode;
+        counter++;
     }
 
     @Override
-    public Object pop() {
+    public Object pop()throws StackException {
+        if (isEmpty())
+            throw new StackException("La lista está vacia");
         Object result = this.top.data;
         this.top = this.top.next;
         counter--;
@@ -31,17 +28,19 @@ public class LinkedStack implements Stack {
     }
 
     @Override
-    public Object peek() {
+    public Object peek()throws StackException {
+        if (isEmpty())
+            throw new StackException("La lista está vacia");
         return this.top.data;
     }
 
     @Override
     public boolean isEmpty() {
-        return top.data == null;
+        return top == null;
     }
 
     @Override
-    public Object top() {
+    public Object top()throws StackException {
         return peek();
     }
 

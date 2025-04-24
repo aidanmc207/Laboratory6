@@ -16,7 +16,7 @@ public class ArrayStack implements Stack {
     public void push(Object o)throws StackException {
         if (top == n)
             throw new StackException("La lista está llena");
-            dataStack[++top] = o;
+        dataStack[++top] = o;
     }
 
     @Override
