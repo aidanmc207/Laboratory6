@@ -32,7 +32,7 @@
             <TextField fx:id="valueTextField" layoutX="209.0" layoutY="35.0" prefHeight="35.0" prefWidth="191.0" />
             <Pane layoutY="82.0" prefHeight="75.0" prefWidth="600.0" style="-fx-background-color: #3498db;">
                <children>
-                  <ButtonBar fx:id="btnBar" disable="true" layoutX="14.0" layoutY="18.0" prefHeight="40.0" prefWidth="573.0">
+                  <ButtonBar fx:id="btnBar" layoutX="14.0" layoutY="18.0" prefHeight="40.0" prefWidth="573.0">
                      <buttons>
                         <RadioButton fx:id="binBTN" mnemonicParsing="false" onAction="#binaryOnAction" prefHeight="27.0" prefWidth="112.0" text="Binary">
                            <font>

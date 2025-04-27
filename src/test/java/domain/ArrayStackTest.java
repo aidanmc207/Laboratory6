@@ -49,8 +49,7 @@ class ArrayStackTest {
     }
 
     private void desapilar(ArrayStack stack) {
-        ArrayStack aux = new ArrayStack(stack.size()); // Pila auxiliar
-
+        ArrayStack aux = new ArrayStack(stack.size());
         try {
             while (!stack.isEmpty()) {
                 Person p = (Person) stack.pop();
