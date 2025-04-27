@@ -8,11 +8,9 @@ public class ArithmeticConverter {
     private String expression;
     private StringBuilder result;
 
-    public ArithmeticConverter(String expression) {
-        this.expression = expression;
-    }
+    public ArithmeticConverter() {}
 
-    public String infixToPostfix() {
+    public String infixToPostfix(String expression) {
         result = new StringBuilder();
         stack = new LinkedStack();
         try {
@@ -57,7 +55,7 @@ public class ArithmeticConverter {
         return result.toString();
     }
 
-    public String infixToPrefix() {
+    public String infixToPrefix(String expression) {
         Stack operators = new LinkedStack(); // Pila para operadores
         Stack operands = new LinkedStack();  // Pila para operandos
 
@@ -97,16 +95,7 @@ public class ArithmeticConverter {
         }
     }
 
-    // Método auxiliar para evitar la repetición en un paso de la construcción del prefijo
-    private void processPrefixStep(Stack operators, Stack operands) throws StackException {
-        String op1 = (String) operands.pop();
-        String op2 = (String) operands.pop();
-        char op = (char) operators.pop();
-        String expr = op + op1 + op2;
-        operands.push(expr);
-    }
-
-    public String postfixToInfix() {
+    public String postfixToInfix(String expression) {
         stack = new LinkedStack();
         try {
             for (int i = 0; i < expression.length(); i++) {
@@ -134,7 +123,7 @@ public class ArithmeticConverter {
         }
     }
 
-    public String prefixToInfix() {
+    public String prefixToInfix(String expression) {
         stack = new LinkedStack();
 
         try {
@@ -162,6 +151,24 @@ public class ArithmeticConverter {
         } catch (StackException e) {
             return "Error: " + e.getMessage();
         }
+    }
+    public String postfixToPrefix(String expression){
+        String infix = postfixToInfix(expression);
+        return infixToPrefix(infix);
+    }
+
+    public String prefixToPostfix(String expression){
+        String infix = prefixToInfix(expression);
+        return infixToPostfix(infix);
+    }
+
+    // Método auxiliar para evitar la repetición en un paso de la construcción del prefijo
+    private void processPrefixStep(Stack operators, Stack operands) throws StackException {
+        String op1 = (String) operands.pop();
+        String op2 = (String) operands.pop();
+        char op = (char) operators.pop();
+        String expr = op + op1 + op2;
+        operands.push(expr);
     }
 
 

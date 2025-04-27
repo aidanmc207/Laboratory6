@@ -28,6 +28,7 @@ public class ArithmeticConverterController {
     @javafx.fxml.FXML
     private RadioButton infixButton;
 
+    private String expression;
     private static Alert alert;
     private String expressionType;
 
@@ -35,6 +36,9 @@ public class ArithmeticConverterController {
     public void initialize() {
         alert = FXUtility.alert("Arithmetic Expression Converter", "Expression Conversion");
         alert.setAlertType(Alert.AlertType.ERROR);
+        setResultExpressionNames("", "");
+        firstExpressionConvertedTf.setDisable(true);
+        secondConvertedExpressionTf.setDisable(true);
     }
 
     @javafx.fxml.FXML
@@ -63,19 +67,20 @@ public class ArithmeticConverterController {
 
     @javafx.fxml.FXML
     public void convertOnAction(ActionEvent actionEvent) {
-        //TODO método de conversión de expresiones aritméticas (llamar clase ArithmeticController())
-        ArithmeticConverter converter = new ArithmeticConverter(expressionTextField.getText());
+        ArithmeticConverter converter = new ArithmeticConverter();
+        expression = expressionTextField.getText();
         switch (expressionType) {
             case "Infix":
-                firstExpressionConvertedTf.setText(converter.infixToPrefix());
-                secondConvertedExpressionTf.setText(converter.infixToPostfix());
+                firstExpressionConvertedTf.setText(converter.infixToPrefix(expression));
+                secondConvertedExpressionTf.setText(converter.infixToPostfix(expression));
                 break;
                 case "Postfix":
-                    secondConvertedExpressionTf.setText(converter.postfixToInfix());
-                    firstExpressionConvertedTf.setText(converter.postfixToInfix());
+                    firstExpressionConvertedTf.setText(converter.postfixToPrefix(expression));
+                    secondConvertedExpressionTf.setText(converter.postfixToInfix(expression));
                     break;
                     case "Prefix":
-                        secondConvertedExpressionTf.setText(converter.prefixToInfix());
+                        firstExpressionConvertedTf.setText(converter.prefixToPostfix(expression));
+                        secondConvertedExpressionTf.setText(converter.prefixToInfix(expression));
                         break;
         }
     }
@@ -90,5 +95,7 @@ public class ArithmeticConverterController {
     private void setResultExpressionNames(String name1, String name2) {
         firstConversionText.setText(name1 + ": ");
         secondConversionText.setText(name2 + ": ");
+        firstExpressionConvertedTf.setDisable(false);
+        secondConvertedExpressionTf.setDisable(false);
     }
 }
