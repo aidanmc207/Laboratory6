@@ -52,5 +52,6 @@ public class HelloController {
 
     @FXML
     public void baseConverterOnAction(ActionEvent actionEvent) {
+        load("baseConverter.fxml");
     }
 }

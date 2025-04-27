@@ -1,4 +1,6 @@
 package util;
+import domain.LinkedStack;
+import domain.StackException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -172,6 +174,72 @@ public class Utility {
         }
         return true;
     }
+
+    public static String conversor(String parametro, int value) throws StackException {
+        String result ="";
+        switch (parametro) {
+            case "Binary":result = decimalToBinary(value);break;
+            case "Hexadecimal":result = decimalToHex(value);break;
+            case "Octal":result=decimalToOctal(value);break;
+        }
+        return result;
+    }
+
+    private static String decimalToOctal(int value) throws StackException {
+        StringBuilder builder = new StringBuilder();
+        LinkedStack stack = new LinkedStack();
+        if (value == 0) return "0";
+        while (value > 0) {
+            stack.push(value%8);
+            value = value / 8;
+        }
+        while (!stack.isEmpty()) {
+            builder.append(stack.pop());
+        }
+        return builder.toString();
+    }
+
+    private static String decimalToHex(int value) throws StackException {
+        StringBuilder builder = new StringBuilder();
+        LinkedStack stack = new LinkedStack();
+        if (value == 0) return "0";
+        while (value > 0) {
+            if (value % 16>9) stack.push(determinarLetra(value));
+            stack.push(value%16);
+            value = value / 16;
+        }
+        while (!stack.isEmpty()) {
+            builder.append(stack.pop());
+        }
+        return builder.toString();
+    }
+
+    private static Object determinarLetra(int value) {
+        switch (value) {
+            case 10:return "A";
+            case 11:return "B";
+            case 12:return "C";
+            case 13:return "D";
+            case 14:return "E";
+            case 15:return "F";
+            default:return "0";
+        }
+    }
+
+    private static String decimalToBinary(int number) throws StackException {
+    LinkedStack stack = new LinkedStack();
+    if (number == 0) return "0";
+    while (number > 0) {
+        stack.push(number%2);
+        number = number / 2;
+    }
+    StringBuilder result = new StringBuilder();
+    while (!stack.isEmpty()) {
+        result.append(stack.pop());
+    }
+    return result.toString();
+    }
+}
 //    private ObservableList<List<String>> getEmployeeList() {
 //        ObservableList<List<String>> data = FXCollections.observableArrayList();
 //        if(employeeList!=null &&!employeeList.isEmpty()){
@@ -189,8 +257,7 @@ public class Utility {
 //                alert.setAlertType(Alert.AlertType.ERROR);
 //                alert.setContentText("There was an error in the process");
 //                alert.showAndWait();
-//            }
+//
 //        }
 //        return data;
 //        }
-}
