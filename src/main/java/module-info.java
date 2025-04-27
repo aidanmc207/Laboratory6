@@ -6,6 +6,8 @@ module ucr.laboratory6 {
 
     opens ucr.laboratory6 to javafx.fxml;
     exports ucr.laboratory6;
+    exports domain;
+    opens domain to javafx.fxml;
     exports controller;
     opens controller to javafx.fxml;
 }
