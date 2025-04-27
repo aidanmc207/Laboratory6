@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.BaseConverterController">
+   <children>
+      <Pane prefHeight="87.0" prefWidth="600.0" style="-fx-background-color: e67e22;">
+         <children>
+            <Text layoutX="66.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Base Converter (Linked Stack)">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Pane layoutY="87.0" prefHeight="314.0" prefWidth="600.0" style="-fx-background-color: #58d68d;">
+         <children>
+            <Label layoutX="41.0" layoutY="35.0" prefHeight="35.0" prefWidth="168.0" text="Decimal Value:">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="valueTextField" layoutX="209.0" layoutY="35.0" prefHeight="35.0" prefWidth="191.0" />
+            <Pane layoutY="82.0" prefHeight="75.0" prefWidth="600.0" style="-fx-background-color: #3498db;">
+               <children>
+                  <RadioButton layoutX="47.0" layoutY="20.0" mnemonicParsing="false" onAction="#binaryOnAction" prefHeight="27.0" prefWidth="112.0" text="Binary">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton layoutX="244.0" layoutY="20.0" mnemonicParsing="false" onAction="#octalOnAction" prefHeight="27.0" prefWidth="112.0" text="Octal">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton layoutX="399.0" layoutY="20.0" mnemonicParsing="false" onAction="#hexaOnAction" prefHeight="35.0" prefWidth="211.0" text="Hexadecimal">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </Pane>
+            <Pane layoutY="168.0" prefHeight="87.0" prefWidth="600.0" style="-fx-background-color: #196f3d;">
+               <children>
+                  <Label layoutX="47.0" layoutY="23.0" prefHeight="35.0" prefWidth="84.0" text="Result:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="resultTextField" layoutX="132.0" layoutY="27.0" prefHeight="35.0" prefWidth="360.0" />
+               </children>
+            </Pane>
+            <Button layoutX="209.0" layoutY="261.0" mnemonicParsing="false" onAction="#convertButtonOnAction" text="Convert">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button layoutX="307.0" layoutY="261.0" mnemonicParsing="false" onAction="#clearButtonOnAction" prefHeight="39.0" prefWidth="84.0" text="Clear">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
