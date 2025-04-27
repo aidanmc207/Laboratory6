@@ -8,11 +8,9 @@ public class ArithmeticConverter {
     private String expression;
     private StringBuilder result;
 
-    public ArithmeticConverter(String expression) {
-        this.expression = expression;
-    }
+    public ArithmeticConverter() {}
 
-    public String infixToPostfix() {
+    public String infixToPostfix(String expression) {
         result = new StringBuilder();
         stack = new LinkedStack();
         try {
@@ -57,7 +55,7 @@ public class ArithmeticConverter {
         return result.toString();
     }
 
-    public String infixToPrefix() {
+    public String infixToPrefix(String expression) {
         Stack operators = new LinkedStack(); // Pila para operadores
         Stack operands = new LinkedStack();  // Pila para operandos
 
@@ -97,16 +95,7 @@ public class ArithmeticConverter {
         }
     }
 
-    // Método auxiliar para evitar la repetición en un paso de la construcción del prefijo
-    private void processPrefixStep(Stack operators, Stack operands) throws StackException {
-        String op1 = (String) operands.pop();
-        String op2 = (String) operands.pop();
-        char op = (char) operators.pop();
-        String expr = op + op1 + op2;
-        operands.push(expr);
-    }
-
-    public String postfixToInfix() {
+    public String postfixToInfix(String expression) {
         stack = new LinkedStack();
         try {
             for (int i = 0; i < expression.length(); i++) {
@@ -134,7 +123,7 @@ public class ArithmeticConverter {
         }
     }
 
-    public String prefixToInfix() {
+    public String prefixToInfix(String expression) {
         stack = new LinkedStack();
 
         try {
@@ -162,6 +151,92 @@ public class ArithmeticConverter {
         } catch (StackException e) {
             return "Error: " + e.getMessage();
         }
+    }
+    public String postfixToPrefix(String expression){
+        String infix = postfixToInfix(expression);
+        return infixToPrefix(infix);
+    }
+
+    public String prefixToPostfix(String expression){
+        String infix = prefixToInfix(expression);
+        return infixToPostfix(infix);
+    }
+
+    /*public String postfixToPrefix(String expression) {
+        LinkedStack stack = new LinkedStack();
+
+        try {
+            for (int i = 0; i < expression.length(); i++) {
+                char c = expression.charAt(i);
+
+                if (Character.isLetterOrDigit(c)) {
+                    stack.push(c + ""); // El operando se coloca en la pila
+                } else { // Es un operador
+                    if (stack.size() < 2) {
+                        return "Expresión inválida (no hay suficientes operandos)";
+                    }
+                    String op2 = (String) stack.pop(); // Segundo operando
+                    String op1 = (String) stack.pop(); // Primer operando
+                    String expr = c + op1 + op2; // Expresión en formato prefijo
+                    stack.push(expr); // Se coloca la nueva expresión en la pila
+                }
+            }
+
+            if (stack.size() != 1) {
+                return "Expresión inválida (sobran operandos)";
+            }
+            return (String) stack.pop(); // Resultado final
+
+        } catch (StackException e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    public String prefixToPostfix(String expression) {
+        LinkedStack operators = new LinkedStack(); // Pila para operadores
+        LinkedStack operands = new LinkedStack();  // Pila para operandos
+
+        try {
+            for (int i = expression.length() - 1; i >= 0; i--) {
+                char c = expression.charAt(i);
+
+                if (Character.isLetterOrDigit(c)) {
+                    operands.push(c + ""); // Operando se añade a la pila de operandos
+                } else { // Es un operador
+                    while (!operators.isEmpty() && precedence((char) operators.peek()) > precedence(c)) {
+                        processPostfixStep(operators, operands); // Procesamos el paso de postfijo
+                    }
+                    operators.push(c); // El operador se pone en la pila de operadores
+                }
+            }
+
+            while (!operators.isEmpty()) {
+                processPostfixStep(operators, operands); // Procesamos los operadores restantes
+            }
+
+            return (String) operands.pop(); // Resultado final
+
+        } catch (StackException e) {
+            return "Error: " + e.getMessage();
+        }
+    }*/
+
+    // Método auxiliar para procesar un paso en la conversión a postfijo
+    private void processPostfixStep(LinkedStack operators, LinkedStack operands) throws StackException {
+        String op2 = (String) operands.pop(); // Primer operando
+        String op1 = (String) operands.pop(); // Segundo operando
+        char op = (char) operators.pop(); // Operador
+        String expr = op1 + op2 + op; // Expresión en formato postfijo
+        operands.push(expr); // Se coloca la nueva expresión en la pila
+    }
+
+    // Método auxiliar para evitar la repetición en un paso de la construcción del prefijo
+    private void processPrefixStep(Stack operators, Stack operands) throws StackException {
+        String op1 = (String) operands.pop();
+        String op2 = (String) operands.pop();
+        char op = (char) operators.pop();
+        String expr = op + op1 + op2;
+        operands.push(expr);
     }
 
 
