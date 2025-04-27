@@ -31,7 +31,7 @@ public class HelloController {
 
     @FXML
     public void Home(ActionEvent actionEvent) {
-        this.txtMessage.setText("Laboratory 5\nDaniel Sánchez Vargas\nAndreé Murillo Sojo\nAidan Murillo Corrales");
+        this.txtMessage.setText("Laboratory 6\nDaniel Sánchez Vargas\nAndreé Murillo Sojo\nAidan Murillo Corrales");
         this.bp.setCenter(ap);
     }
 

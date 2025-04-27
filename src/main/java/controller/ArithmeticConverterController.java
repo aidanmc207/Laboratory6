@@ -68,7 +68,7 @@ public class ArithmeticConverterController {
     @javafx.fxml.FXML
     public void convertOnAction(ActionEvent actionEvent) {
         ArithmeticConverter converter = new ArithmeticConverter();
-        expression = expressionTextField.getText();
+        expression = expressionTextField.getText().trim();
         switch (expressionType) {
             case "Infix":
                 firstExpressionConvertedTf.setText(converter.infixToPrefix(expression));

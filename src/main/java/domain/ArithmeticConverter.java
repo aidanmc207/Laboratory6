@@ -56,11 +56,8 @@ public class ArithmeticConverter {
     }
 
     public String infixToPrefix(String expression) {
-        Stack operators = new LinkedStack(); // Pila para operadores
-        Stack operands = new LinkedStack();  // Pila para operandos
-
-        //Se necesitan dos pilas para poder recordar los operadores y operandos
-
+        Stack operators = new LinkedStack();
+        Stack operands = new LinkedStack();
         try {
             for (int i = expression.length() - 1; i >= 0; i--) {
                 char c = expression.charAt(i);
@@ -74,9 +71,9 @@ public class ArithmeticConverter {
                         processPrefixStep(operators, operands);
                     }
                     if (!operators.isEmpty()) {
-                        operators.pop(); // Elimina el paréntesis de cierre
+                        operators.pop();
                     }
-                } else { // Es un operador (+, -, *, /, ^)
+                } else {
                     while (!operators.isEmpty() && precedence((char) operators.peek()) > precedence(c)) {
                         processPrefixStep(operators, operands);
                     }
@@ -102,22 +99,22 @@ public class ArithmeticConverter {
                 char c = expression.charAt(i);
 
                 if (Character.isLetterOrDigit(c)) {
-                    stack.push(c + ""); // Se convierte a String y se guarda
-                } else { // Es un operador
+                    stack.push(c + "");
+                } else {
                     if (stack.size() < 2) {
                         return "Expresión inválida (no hay suficientes operandos)";
                     }
-                    String op2 = (String) stack.pop(); // Segundo operando
-                    String op1 = (String) stack.pop(); // Primer operando
+                    String op2 = (String) stack.pop();
+                    String op1 = (String) stack.pop();
                     String newExpr = "(" + op1 + c + op2 + ")";
-                    stack.push(newExpr); // Lo nuevo se vuelve el tope de la pila
+                    stack.push(newExpr);//devuelve al tope de la pila
                 }
             }
 
             if (stack.size() != 1) {
                 return "Expresión inválida (sobran operandos)";
             }
-            return (String) stack.pop(); // Resultado final
+            return (String) stack.pop();//resultado
         } catch (StackException e) {
             return "Error en el manejo de la pila: " + e.getMessage();
         }
@@ -132,7 +129,7 @@ public class ArithmeticConverter {
 
                 if (Character.isLetterOrDigit(c)) {
                     stack.push(c + "");
-                } else { // Es un operador
+                } else {
                     if (stack.size() < 2) {
                         return "Expresión inválida (faltan operandos)";
                     }
@@ -172,7 +169,7 @@ public class ArithmeticConverter {
     }
 
 
-    private int precedence(char ch) {
+    private int precedence(char ch) {//determina la precedencia de los operadores
         switch (ch) {
             case '^':
                 return 3;
