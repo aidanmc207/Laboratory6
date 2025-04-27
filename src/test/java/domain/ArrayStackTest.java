@@ -28,6 +28,44 @@ class ArrayStackTest {
         Person p9=new Person(9, "Alana", 22);
         Person p10=new Person(10, "Pablo", 19);
         Person p11=new Person(11, "Ana", 18);
+        ArrayStack stack=new ArrayStack(11);
+        try {
+            stack.push(p1);
+            stack.push(p2);
+            stack.push(p3);
+            stack.push(p4);
+            stack.push(p5);
+            stack.push(p6);
+            stack.push(p7);
+            stack.push(p8);
+            stack.push(p9);
+            stack.push(p10);
+            stack.push(p11);
+        }catch (StackException e){}
+        System.out.println(stack);
+        desapilar(stack);
+        System.out.println(stack);
+
     }
 
+    private void desapilar(ArrayStack stack) {
+        ArrayStack aux = new ArrayStack(stack.size()); // Pila auxiliar
+
+        try {
+            while (!stack.isEmpty()) {
+                Person p = (Person) stack.pop();
+                if ((p.getAge() == 18 && p.getName().startsWith("A")) ||
+                        (p.getName().equals("Nicole") && p.getAge() == 19) ||
+                        (p.getAge() >= 20 && p.getAge() <= 23)) {//Aqui metí todo en una condicion
+                } else {
+                    aux.push(p);//se guarda
+                }
+            }
+            while (!aux.isEmpty()) {
+                stack.push(aux.pop());//llenamos la pila de nuevo
+            }
+        } catch (StackException e) {
+            e.printStackTrace();
+        }
+    }
 }

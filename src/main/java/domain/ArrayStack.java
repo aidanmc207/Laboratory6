@@ -17,7 +17,7 @@ public class ArrayStack implements Stack {
 
     @Override
     public void push(Object o)throws StackException {
-        if (top == n)
+        if (top == dataStack.length-1)
             throw new StackException("La lista está llena");
         dataStack[++top] = o;
     }
@@ -30,23 +30,6 @@ public class ArrayStack implements Stack {
         dataStack[top] = null;
         top--;
         return o;
-    }
-
-    @Override
-    public String toString() {
-        if(isEmpty()) return "Array Strack is Empty";
-        String result = "Array Stack Content: \n";
-        ArrayStack aux = new ArrayStack(size());
-        try {
-            while (!isEmpty()) {
-                result += peek() + " ";
-                aux.push(pop());
-            }
-            while (!aux.isEmpty()) {
-                push(aux.pop());
-            }
-        }catch (StackException e){}
-        return result;
     }
 
     @Override
@@ -68,11 +51,27 @@ public class ArrayStack implements Stack {
 
     @Override
     public int size() {
-        return n-top;
+        return top+1;
     }
 
     @Override
     public void clear() {
         this.dataStack = new Object[this.n];
+    }
+    @Override
+    public String toString() {
+        if(isEmpty()) return "Array Strack is Empty";
+        String result = "Array Stack Content: \n";
+        ArrayStack aux = new ArrayStack(size());
+        try {
+            while (!isEmpty()) {
+                result += peek() + "\n";
+                aux.push(pop());
+            }
+            while (!aux.isEmpty()) {
+                push(aux.pop());
+            }
+        }catch (StackException e){}
+        return result;
     }
 }
