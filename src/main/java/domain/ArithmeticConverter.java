@@ -4,20 +4,17 @@ import java.util.ArrayList;
 
 public class ArithmeticConverter {
 
-    private ArrayStack arrayStack;
+    private LinkedStack stack;
     private String expression;
-    private String firstResult;
-    private String secondResult;
+    private StringBuilder result;
 
     public ArithmeticConverter(String expression) {
         this.expression = expression;
-        arrayStack = new ArrayStack(expression.length());
     }
 
     public String infixToPostfix() {
-        StringBuilder result = new StringBuilder();
-        Stack stack = new LinkedStack();
-
+        result = new StringBuilder();
+        stack = new LinkedStack();
         try {
             for (int i = 0; i < expression.length(); i++) {
                 char c = expression.charAt(i);
@@ -60,9 +57,57 @@ public class ArithmeticConverter {
         return result.toString();
     }
 
-    public String postfixToInfix() {
-        Stack stack = new LinkedStack(); // o ArrayStack, depende de cuál quieras usar
+    public String infixToPrefix() {
+        Stack operators = new LinkedStack(); // Pila para operadores
+        Stack operands = new LinkedStack();  // Pila para operandos
 
+        //Se necesitan dos pilas para poder recordar los operadores y operandos
+
+        try {
+            for (int i = expression.length() - 1; i >= 0; i--) {
+                char c = expression.charAt(i);
+
+                if (Character.isLetterOrDigit(c)) {
+                    operands.push(c + "");
+                } else if (c == ')') {
+                    operators.push(c);
+                } else if (c == '(') {
+                    while (!operators.isEmpty() && (char) operators.peek() != ')') {
+                        processPrefixStep(operators, operands);
+                    }
+                    if (!operators.isEmpty()) {
+                        operators.pop(); // Elimina el paréntesis de cierre
+                    }
+                } else { // Es un operador (+, -, *, /, ^)
+                    while (!operators.isEmpty() && precedence((char) operators.peek()) > precedence(c)) {
+                        processPrefixStep(operators, operands);
+                    }
+                    operators.push(c);
+                }
+            }
+
+            while (!operators.isEmpty()) {
+                processPrefixStep(operators, operands);
+            }
+
+            return (String) operands.pop();
+
+        } catch (StackException e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    // Método auxiliar para evitar la repetición en un paso de la construcción del prefijo
+    private void processPrefixStep(Stack operators, Stack operands) throws StackException {
+        String op1 = (String) operands.pop();
+        String op2 = (String) operands.pop();
+        char op = (char) operators.pop();
+        String expr = op + op1 + op2;
+        operands.push(expr);
+    }
+
+    public String postfixToInfix() {
+        stack = new LinkedStack();
         try {
             for (int i = 0; i < expression.length(); i++) {
                 char c = expression.charAt(i);
@@ -88,6 +133,37 @@ public class ArithmeticConverter {
             return "Error en el manejo de la pila: " + e.getMessage();
         }
     }
+
+    public String prefixToInfix() {
+        stack = new LinkedStack();
+
+        try {
+            for (int i = expression.length() - 1; i >= 0; i--) {
+                char c = expression.charAt(i);
+
+                if (Character.isLetterOrDigit(c)) {
+                    stack.push(c + "");
+                } else { // Es un operador
+                    if (stack.size() < 2) {
+                        return "Expresión inválida (faltan operandos)";
+                    }
+                    String op1 = (String) stack.pop();
+                    String op2 = (String) stack.pop();
+                    String expr = "(" + op1 + c + op2 + ")";
+                    stack.push(expr);
+                }
+            }
+
+            if (stack.size() != 1) {
+                return "Expresión inválida (sobran operandos)";
+            }
+            return (String) stack.pop();
+
+        } catch (StackException e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
 
     private int precedence(char ch) {
         switch (ch) {

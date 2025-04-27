@@ -67,11 +67,16 @@ public class ArithmeticConverterController {
         ArithmeticConverter converter = new ArithmeticConverter(expressionTextField.getText());
         switch (expressionType) {
             case "Infix":
+                firstExpressionConvertedTf.setText(converter.infixToPrefix());
                 secondConvertedExpressionTf.setText(converter.infixToPostfix());
                 break;
                 case "Postfix":
                     secondConvertedExpressionTf.setText(converter.postfixToInfix());
+                    firstExpressionConvertedTf.setText(converter.postfixToInfix());
                     break;
+                    case "Prefix":
+                        secondConvertedExpressionTf.setText(converter.prefixToInfix());
+                        break;
         }
     }
 
