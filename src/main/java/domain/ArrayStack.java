@@ -3,15 +3,18 @@ package domain;
 import java.util.Arrays;
 
 public class ArrayStack implements Stack {
+
     private int n;
     private Object[] dataStack;
     private int top;
+
     public ArrayStack(int n) {
         if (n <= 0)System.exit(1);
         this.n = n;
         dataStack = new Object[n];
         top = -1;//la pila inicia vacia
     }
+
     @Override
     public void push(Object o)throws StackException {
         if (top == n)

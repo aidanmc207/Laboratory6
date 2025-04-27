@@ -43,18 +43,14 @@ public class HelloController {
     @FXML
     public void exampleOnMousePressed(Event event) {
         this.txtMessage.setText("Loading Example. Please wait!!!");
-
-    }
-    @FXML
-    public void staffingOnAction(ActionEvent actionEvent) {load("staff.fxml");}
-
-    @FXML
-    public void jobPositionOnAction(ActionEvent actionEvent) {
-        load("jobPosition.fxml");
     }
 
     @FXML
-    public void employeesOnAction(ActionEvent actionEvent) {
-        load("employee.fxml");
+    public void arithmeticConverterOnAction(ActionEvent actionEvent) {
+        load("arithmeticConverter.fxml");
+    }
+
+    @FXML
+    public void baseConverterOnAction(ActionEvent actionEvent) {
     }
 }
