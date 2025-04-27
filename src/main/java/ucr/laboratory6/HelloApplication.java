@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         String css = Objects.requireNonNull(HelloApplication.class.getResource("stylesheet.css")).toExternalForm();
         scene.getStylesheets().add(css);
-        stage.setTitle("Laboratory 5\nDaniel Sánchez Vargas\nAndreé Murillo Sojo\nAidan Murillo Corrales");
+        stage.setTitle("Laboratory 6   Daniel Sánchez Vargas - Andreé Murillo Sojo - Aidan Murillo Corrales");
         stage.setScene(scene);
         stage.show();
     }
