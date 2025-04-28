@@ -200,6 +200,33 @@ public class ArithmeticConverter {
         return (int) stack.pop();
     }
 
+    public int evaluatePrefix(String expression) throws StackException {
+        LinkedStack stack = new LinkedStack();
+
+        for (int i = expression.length() - 1; i >= 0; i--) {
+            char c = expression.charAt(i);
+
+            if (c == ' ') continue; // Ignorar espacios
+
+            if (Character.isDigit(c)) {
+                stack.push(c - '0'); // Convertir de char a int
+            } else { // Operador
+                int op1 = (int) stack.pop();
+                int op2 = (int) stack.pop();
+                int result = 0;
+                switch (c) {
+                    case '+': result = op1 + op2; break;
+                    case '-': result = op1 - op2; break;
+                    case '*': result = op1 * op2; break;
+                    case '/': result = op1 / op2; break;
+                    case '^': result = (int) Math.pow(op1, op2); break;
+                }
+                stack.push(result);
+            }
+        }
+        return (int) stack.pop(); // Resultado final
+    }
+
 
     private int precedence(char ch) {//determina la precedencia de los operadores
         switch (ch) {

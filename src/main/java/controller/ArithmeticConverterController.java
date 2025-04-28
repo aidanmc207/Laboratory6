@@ -68,39 +68,56 @@ public class ArithmeticConverterController {
         setResultExpressionNames("Postfix", "Infix");
     }
 
-    @javafx.fxml.FXML
+    @FXML
     public void convertOnAction(ActionEvent actionEvent) {
         expression = expressionTextField.getText().trim();
-        String result="";
+        String result = "";
         switch (expressionType) {
             case "Infix":
-                firstExpressionConvertedTf.setText(converter.infixToPrefix(expression));
                 if (converter.isNumericExpression(converter.infixToPostfix(expression))) {
                     try {
-                        result=String.valueOf(converter.evaluatePostfix(converter.infixToPostfix(expression)));
-                        secondConvertedExpressionTf.setText(converter.infixToPostfix(expression)+"="+result);
+                        result = String.valueOf(converter.evaluatePostfix(converter.infixToPostfix(expression)));
+                        firstExpressionConvertedTf.setText(converter.infixToPrefix(expression) + "=" + result);
+                        secondConvertedExpressionTf.setText(converter.infixToPostfix(expression) + "=" + result);
                     } catch (StackException e) {
                         throw new RuntimeException(e);
                     }
-                }else secondConvertedExpressionTf.setText(converter.infixToPostfix(expression));
+                } else {
+                    firstExpressionConvertedTf.setText(converter.infixToPrefix(expression));
+                    secondConvertedExpressionTf.setText(converter.infixToPostfix(expression));
+                }
                 break;
-                case "Postfix":
+            case "Postfix":
+                if (converter.isNumericExpression(expression)) {
+                    try {
+                        result = String.valueOf(converter.evaluatePostfix(expression));
+                        firstExpressionConvertedTf.setText(converter.postfixToPrefix(expression) + "=" + result);
+                        secondConvertedExpressionTf.setText(converter.postfixToInfix(expression) + "=" + result);
+                    } catch (StackException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
                     firstExpressionConvertedTf.setText(converter.postfixToPrefix(expression));
-                    if (converter.isNumericExpression(expression)){
-                        try {
-                            result=String.valueOf(converter.evaluatePostfix(expression));
-                            secondConvertedExpressionTf.setText(converter.postfixToInfix(expression)+"="+result);
-                        } catch (StackException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }else{ secondConvertedExpressionTf.setText(converter.postfixToInfix(expression));}
-                    break;
-                    case "Prefix":
-                        firstExpressionConvertedTf.setText(converter.prefixToPostfix(expression));
-                        secondConvertedExpressionTf.setText(converter.prefixToInfix(expression));
-                        break;
+                    secondConvertedExpressionTf.setText(converter.postfixToInfix(expression));
+                }
+                break;
+            case "Prefix":
+                if (converter.isNumericExpression(expression)) {
+                    try {
+                        result = String.valueOf(converter.evaluatePrefix(expression));
+                        firstExpressionConvertedTf.setText(converter.prefixToPostfix(expression) + "=" + result);
+                        secondConvertedExpressionTf.setText(converter.prefixToInfix(expression) + "=" + result);
+                    } catch (StackException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    firstExpressionConvertedTf.setText(converter.prefixToPostfix(expression));
+                    secondConvertedExpressionTf.setText(converter.prefixToInfix(expression));
+                }
+                break;
         }
     }
+
 
     @javafx.fxml.FXML
     public void cleanOnAction(ActionEvent actionEvent) {
