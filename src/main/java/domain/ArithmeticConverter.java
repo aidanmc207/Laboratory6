@@ -194,7 +194,7 @@ public class ArithmeticConverter {
                     case '/': result = op1 / op2; break;
                     case '^': result = (int) Math.pow(op1, op2);break;
                 }
-                stack.push(result);// se mete al stack
+                stack.push(result);//se mete en el stack
             }
         }
         return (int) stack.pop();
@@ -206,11 +206,10 @@ public class ArithmeticConverter {
         for (int i = expression.length() - 1; i >= 0; i--) {
             char c = expression.charAt(i);
 
-            if (c == ' ') continue; // Ignorar espacios
-
+            if (Character.isWhitespace(c)) continue;
             if (Character.isDigit(c)) {
-                stack.push(c - '0'); // Convertir de char a int
-            } else { // Operador
+                stack.push(c - '0'); //convertir el char a int
+            } else {
                 int op1 = (int) stack.pop();
                 int op2 = (int) stack.pop();
                 int result = 0;
@@ -224,7 +223,7 @@ public class ArithmeticConverter {
                 stack.push(result);
             }
         }
-        return (int) stack.pop(); // Resultado final
+        return (int) stack.pop();
     }
 
 
