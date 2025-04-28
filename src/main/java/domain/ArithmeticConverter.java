@@ -17,6 +17,8 @@ public class ArithmeticConverter {
             for (int i = 0; i < expression.length(); i++) {
                 char c = expression.charAt(i);
 
+                if (Character.isWhitespace(c)) continue;
+
                 if (Character.isLetterOrDigit(c)) {
                     result.append(c);
                 }
@@ -61,6 +63,8 @@ public class ArithmeticConverter {
         try {
             for (int i = expression.length() - 1; i >= 0; i--) {
                 char c = expression.charAt(i);
+                if (Character.isWhitespace(c)) continue;
+
 
                 if (Character.isLetterOrDigit(c)) {
                     operands.push(c + "");
@@ -97,6 +101,8 @@ public class ArithmeticConverter {
         try {
             for (int i = 0; i < expression.length(); i++) {
                 char c = expression.charAt(i);
+                if (Character.isWhitespace(c)) continue;
+
 
                 if (Character.isLetterOrDigit(c)) {
                     stack.push(c + "");
@@ -126,6 +132,7 @@ public class ArithmeticConverter {
         try {
             for (int i = expression.length() - 1; i >= 0; i--) {
                 char c = expression.charAt(i);
+                if (Character.isWhitespace(c)) continue;
 
                 if (Character.isLetterOrDigit(c)) {
                     stack.push(c + "");
@@ -149,23 +156,48 @@ public class ArithmeticConverter {
             return "Error: " + e.getMessage();
         }
     }
-    public String postfixToPrefix(String expression){
+    public String postfixToPrefix(String expression) {
         String infix = postfixToInfix(expression);
         return infixToPrefix(infix);
     }
 
-    public String prefixToPostfix(String expression){
+    public String prefixToPostfix(String expression) {
         String infix = prefixToInfix(expression);
         return infixToPostfix(infix);
     }
 
-    // Método auxiliar para evitar la repetición en un paso de la construcción del prefijo
+    //Metodo auxiliar para evitar la repetición en un paso del prefijo
     private void processPrefixStep(Stack operators, Stack operands) throws StackException {
         String op1 = (String) operands.pop();
         String op2 = (String) operands.pop();
         char op = (char) operators.pop();
         String expr = op + op1 + op2;
         operands.push(expr);
+    }
+    public int evaluatePostfix(String exp) throws StackException {
+        LinkedStack stack = new LinkedStack();
+        for (int i = 0; i < exp.length(); i++) {
+            char c = exp.charAt(i);
+
+            if (Character.isWhitespace(c)) continue;
+
+            if (Character.isDigit(c)) {
+                stack.push(c - '0');
+            } else {
+                int op2 = (int) stack.pop();
+                int op1 = (int) stack.pop();
+                int result = 0;
+                switch (c) {
+                    case '+': result = op1 + op2; break;
+                    case '-': result = op1 - op2; break;
+                    case '*': result = op1 * op2; break;
+                    case '/': result = op1 / op2; break;
+                    case '^': result = (int) Math.pow(op1, op2);break;
+                }
+                stack.push(result);// se mete al stack
+            }
+        }
+        return (int) stack.pop();
     }
 
 
@@ -182,5 +214,19 @@ public class ArithmeticConverter {
             default:
                 return -1;
         }
+    }
+
+    public boolean isNumericExpression(String expression) {//Revisa si la expresion es operable(No debe tener letras)
+        expression = expression.trim();
+        for (int i = 0; i < expression.length(); i++) {
+            char c = expression.charAt(i);
+
+            if (Character.isWhitespace(c)) continue;
+
+            if (!Character.isDigit(c) && "+-*/^".indexOf(c) == -1) {//en caso de no ser un digito u operador devuelve false
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import domain.ArithmeticConverter;
+import domain.StackException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -31,6 +32,7 @@ public class ArithmeticConverterController {
     private String expression;
     private static Alert alert;
     private String expressionType;
+    private ArithmeticConverter converter;
 
     @FXML
     public void initialize() {
@@ -39,6 +41,7 @@ public class ArithmeticConverterController {
         setResultExpressionNames("", "");
         firstExpressionConvertedTf.setDisable(true);
         secondConvertedExpressionTf.setDisable(true);
+        converter = new ArithmeticConverter();
     }
 
     @javafx.fxml.FXML
@@ -67,16 +70,30 @@ public class ArithmeticConverterController {
 
     @javafx.fxml.FXML
     public void convertOnAction(ActionEvent actionEvent) {
-        ArithmeticConverter converter = new ArithmeticConverter();
         expression = expressionTextField.getText().trim();
+        String result="";
         switch (expressionType) {
             case "Infix":
                 firstExpressionConvertedTf.setText(converter.infixToPrefix(expression));
-                secondConvertedExpressionTf.setText(converter.infixToPostfix(expression));
+                if (converter.isNumericExpression(converter.infixToPostfix(expression))) {
+                    try {
+                        result=String.valueOf(converter.evaluatePostfix(converter.infixToPostfix(expression)));
+                        secondConvertedExpressionTf.setText(converter.infixToPostfix(expression)+"="+result);
+                    } catch (StackException e) {
+                        throw new RuntimeException(e);
+                    }
+                }else secondConvertedExpressionTf.setText(converter.infixToPostfix(expression));
                 break;
                 case "Postfix":
                     firstExpressionConvertedTf.setText(converter.postfixToPrefix(expression));
-                    secondConvertedExpressionTf.setText(converter.postfixToInfix(expression));
+                    if (converter.isNumericExpression(expression)){
+                        try {
+                            result=String.valueOf(converter.evaluatePostfix(expression));
+                            secondConvertedExpressionTf.setText(converter.postfixToInfix(expression)+"="+result);
+                        } catch (StackException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }else{ secondConvertedExpressionTf.setText(converter.postfixToInfix(expression));}
                     break;
                     case "Prefix":
                         firstExpressionConvertedTf.setText(converter.prefixToPostfix(expression));

@@ -51,16 +51,20 @@ public class BaseConverterController
 
     @javafx.fxml.FXML
     public void hexaOnAction(ActionEvent actionEvent) {
+        parametro="Hexadecimal";
+        this.binBTN.setSelected(false);
+        this.octalBTN.setSelected(false);
         if (!this.valueTextField.getText().isEmpty())
             value=Integer.parseInt(this.valueTextField.getText().trim());
-        parametro="Hexadecimal";
     }
 
     @javafx.fxml.FXML
     public void octalOnAction(ActionEvent actionEvent) {
+        parametro="Octal";
+        this.binBTN.setSelected(false);
+        this.hexBTN.setSelected(false);
         if (!this.valueTextField.getText().isEmpty())
             value=Integer.parseInt(this.valueTextField.getText().trim());
-        parametro="Octal";
     }
 
     @javafx.fxml.FXML
@@ -81,8 +85,10 @@ public class BaseConverterController
 
     @javafx.fxml.FXML
     public void binaryOnAction(ActionEvent actionEvent) {
+        parametro="Binary";
+        this.hexBTN.setSelected(false);
+        this.octalBTN.setSelected(false);
         if (!this.valueTextField.getText().isEmpty())
             value=Integer.parseInt(this.valueTextField.getText().trim());
-        parametro="Binary";
     }
 }
