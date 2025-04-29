@@ -35,7 +35,7 @@ public class ArithmeticConverter {
                         return "Expresión inválida (paréntesis desbalanceado)";
                     }
                 }
-                else { // operador
+                else {
                     while (!stack.isEmpty() && precedence(c) <= precedence((char) stack.peek())) {
                         result.append(stack.pop());
                     }
@@ -43,7 +43,7 @@ public class ArithmeticConverter {
                 }
             }
 
-            // Sacar todo lo que quede en la pila
+            //Sacar todo lo que quede en la pila
             while (!stack.isEmpty()) {
                 if (stack.peek().equals('(')) {
                     return "Expresión inválida (paréntesis desbalanceado)";
@@ -113,7 +113,7 @@ public class ArithmeticConverter {
                     String op2 = (String) stack.pop();
                     String op1 = (String) stack.pop();
                     String newExpr = "(" + op1 + c + op2 + ")";
-                    stack.push(newExpr);//devuelve al tope de la pila
+                    stack.push(newExpr);//guardamos la expresion en el stack
                 }
             }
 
@@ -143,7 +143,7 @@ public class ArithmeticConverter {
                     String op1 = (String) stack.pop();
                     String op2 = (String) stack.pop();
                     String expr = "(" + op1 + c + op2 + ")";
-                    stack.push(expr);
+                    stack.push(expr);//guardamos la expresion en el stack
                 }
             }
 
